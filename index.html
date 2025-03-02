@@ -8,25 +8,28 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Ícones do Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         /* Tema claro (padrão) */
         body {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            color: #0d47a1;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #2c3e50;
+            font-family: 'Arial', sans-serif;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
         .container {
             background-color: #ffffff;
-            color: #0d47a1;
+            color: #2c3e50;
             border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             transition: background-color 0.5s ease, color 0.5s ease;
         }
         .resultado-card, .amigo-card {
-            background-color: #bbdefb;
-            color: #0d47a1;
+            background-color: #e9ecef;
+            color: #2c3e50;
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
@@ -34,52 +37,99 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
         .btn-primary {
-            background-color: #1976d2;
-            border-color: #1976d2;
+            background-color: #3498db;
+            border-color: #3498db;
             border-radius: 25px;
             padding: 10px 20px;
             font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #1565c0;
-            border-color: #1565c0;
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-2px);
         }
-
-        /* Tema escuro */
-        body.dark-mode {
-            background: linear-gradient(135deg, #0d47a1, #1a237e);
-            color: #e3f2fd;
+        .btn-secondary {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        .dark-mode .container {
-            background-color: #1a237e;
-            color: #e3f2fd;
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            transform: translateY(-2px);
         }
-        .dark-mode .resultado-card, .dark-mode .amigo-card {
-            background-color: #0d47a1;
-            color: #e3f2fd;
+        .btn-info {
+            background-color: #1abc9c;
+            border-color: #1abc9c;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        .dark-mode .btn-primary {
-            background-color: #64b5f6;
-            border-color: #64b5f6;
+        .btn-info:hover {
+            background-color: #16a085;
+            border-color: #16a085;
+            transform: translateY(-2px);
         }
-        .dark-mode .btn-primary:hover {
-            background-color: #42a5f5;
-            border-color: #42a5f5;
+        .btn-success {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        .dark-mode .pix-link {
-            color: #4dffb8;
+        .btn-success:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+            transform: translateY(-2px);
         }
-        .dark-mode .pix-link:hover {
-            color: #00ff88;
+        .btn-danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-
-        /* Botão de alternância de tema */
+        .btn-danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        .btn-warning {
+            background-color: #f39c12;
+            border-color: #f39c12;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .btn-warning:hover {
+            background-color: #e67e22;
+            border-color: #e67e22;
+            transform: translateY(-2px);
+        }
+        .form-control {
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
         .theme-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background-color: #1976d2;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 50%;
@@ -93,43 +143,143 @@
         }
         .theme-toggle:hover {
             transform: scale(1.1);
-            background-color: #1565c0;
+            background-color: #2980b9;
         }
-
-        /* Feedback visual */
         .loading {
             display: none;
             font-size: 1.2rem;
-            color: #1976d2;
+            color: #3498db;
         }
-
-        /* Estilo dos inputs */
-        .form-control {
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
-        }
-
-        /* Efeito de hover nos cards */
-        .resultado-card:hover, .amigo-card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
-        }
-
-        /* Fixar o título e a seção de resultados no topo ao rolar */
         #cabecalho-fixo {
             position: sticky;
             top: 0;
             z-index: 100;
-            background-color: #ffffff; /* Fundo branco para garantir visibilidade */
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        /* Ajustar o espaçamento para evitar sobreposição */
         #amigos-lista {
             margin-top: 20px;
+        }
+
+        /* Título fixo */
+        .titulo-fixo {
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* Garante que o título fique acima de tudo */
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Conteúdo do lado direito fixo */
+        .conteudo-direito {
+            position: sticky;
+            top: 100px; /* Ajuste conforme a altura do título */
+            z-index: 900; /* Fica abaixo do título */
+            margin-top: 20px; /* Espaçamento para não tampar o título */
+        }
+
+        /* Tema escuro */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ecf0f1;
+        }
+        .dark-mode .container {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+        .dark-mode .resultado-card, .dark-mode .amigo-card {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+        .dark-mode .btn-primary {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        .dark-mode .btn-primary:hover {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+        .dark-mode .btn-secondary {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+        }
+        .dark-mode .btn-secondary:hover {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+        }
+        .dark-mode .btn-info {
+            background-color: #16a085;
+            border-color: #16a085;
+        }
+        .dark-mode .btn-info:hover {
+            background-color: #1abc9c;
+            border-color: #1abc9c;
+        }
+        .dark-mode .btn-success {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+        .dark-mode .btn-success:hover {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+        }
+        .dark-mode .btn-danger {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+        .dark-mode .btn-danger:hover {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        .dark-mode .btn-warning {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+        .dark-mode .btn-warning:hover {
+            background-color: #f39c12;
+            border-color: #f39c12;
+        }
+        .dark-mode .pix-link {
+            color: #1abc9c;
+        }
+        .dark-mode .pix-link:hover {
+            color: #16a085;
+        }
+        .dark-mode .titulo-fixo {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+
+        /* Animação de chuva de pizzas */
+        @keyframes chuvaPizza {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .pizza-chuva {
+            position: fixed;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .pizza-chuva img {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            animation: chuvaPizza 5s linear infinite;
         }
     </style>
 </head>
@@ -139,62 +289,87 @@
         <i class="bi bi-moon-fill"></i>
     </button>
 
+    <!-- Chuva de pizzas -->
+    <div class="pizza-chuva" id="pizza-chuva">
+        <!-- As pizzas serão adicionadas dinamicamente via JavaScript -->
+    </div>
+
     <div class="container">
-        <!-- Título e resultados fixos no topo -->
-        <div id="cabecalho-fixo">
-            <h1>🍕 Calculadora Pizza CFCCT</h1>
-            <div class="resultado-card" id="resultado">
-                <h5><i class="bi bi-cash-coin"></i> Total a ser dividido: <strong>R$ 0.00</strong></h5>
-                <h5><i class="bi bi-pie-chart"></i> Valor por pedaço: <strong>R$ 0.00</strong></h5>
-                <h5><i class="bi bi-people"></i> Valor por amigo:</h5>
-                <ul id="lista-resultados">
-                    <!-- Resultados dos amigos serão adicionados aqui -->
-                </ul>
-            </div>
+        <!-- Título fixo -->
+        <div class="titulo-fixo">
+            <h1 class="text-center">🍕 Calculadora Pizza CFCCT</h1>
         </div>
 
-        <!-- Campos para valores totais -->
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <label for="quantidade-pizzas" class="form-label">Quantidade de Pizzas:</label>
-                <input type="number" class="form-control" id="quantidade-pizzas" placeholder="Ex: 2" min="1" value="1">
-            </div>
-            <div class="col-md-3">
-                <label for="pizza" class="form-label">Valor da Pizza (R$):</label>
-                <input type="number" class="form-control" id="pizza" placeholder="Ex: 50.00">
-            </div>
-            <div class="col-md-3">
-                <label for="frete" class="form-label">Valor do Frete (R$):</label>
-                <input type="number" class="form-control" id="frete" placeholder="Ex: 10.00">
-            </div>
-            <div class="col-md-3">
-                <label for="refri" class="form-label">Valor dos Refrigerantes (R$):</label>
-                <input type="number" class="form-control" id="refri" placeholder="Ex: 15.00">
-            </div>
-        </div>
+        <div class="row">
+            <!-- Coluna da esquerda: Campos de entrada -->
+            <div class="col-md-6">
+                <!-- Campos para valores totais -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="quantidade-pizzas" class="form-label">Quantidade de Pizzas:</label>
+                        <input type="number" class="form-control" id="quantidade-pizzas" placeholder="Ex: 2" min="1" value="1">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="pizza" class="form-label">Valor da Pizza (R$):</label>
+                        <input type="number" class="form-control" id="pizza" placeholder="Ex: 50.00">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="frete" class="form-label">Valor do Frete (R$):</label>
+                        <input type="number" class="form-control" id="frete" placeholder="Ex: 10.00">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="refri" class="form-label">Valor dos Refrigerantes (R$):</label>
+                        <input type="number" class="form-control" id="refri" placeholder="Ex: 15.00">
+                    </div>
+                </div>
 
-        <!-- Lista de amigos -->
-        <div id="amigos-lista">
-            <div class="amigo-card" id="amigo-1">
-                <label for="amigo1" class="form-label">Nome do Amigo:</label>
-                <input type="text" class="form-control" id="amigo1" placeholder="Ex: João">
-                <label for="celular1" class="form-label">Número de Celular:</label>
-                <input type="text" class="form-control" id="celular1" placeholder="Ex: 5511999999999">
-                <label for="pedacos1" class="form-label">Quantos pedaços comeu:</label>
-                <input type="number" class="form-control" id="pedacos1" placeholder="Ex: 2">
-                <button class="btn btn-danger btn-sm w-100 mt-2" onclick="removerAmigo('amigo-1')">Remover</button>
+                <!-- Lista de amigos -->
+                <div id="amigos-lista">
+                    <div class="amigo-card" id="amigo-1">
+                        <label for="amigo1" class="form-label">Nome do Amigo:</label>
+                        <input type="text" class="form-control" id="amigo1" placeholder="Ex: João">
+                        <label for="pedacos1" class="form-label">Quantos pedaços comeu:</label>
+                        <input type="number" class="form-control" id="pedacos1" placeholder="Ex: 2">
+                        <button class="btn btn-danger btn-sm w-100 mt-2" onclick="removerAmigo('amigo-1')">Remover</button>
+                    </div>
+                </div>
+
+                <!-- Botão para adicionar mais amigos -->
+                <button class="btn btn-secondary w-100 mb-3" onclick="adicionarAmigo()">Adicionar Amigo</button>
+
+                <!-- Botão para calcular -->
+                <button class="btn btn-primary w-100 mb-3" onclick="calcular()">Calcular</button>
+
+                <!-- Botão para gerar PDF -->
+                <button class="btn btn-info w-100 mb-3" onclick="gerarPDF()">Gerar PDF</button>
+
+                <!-- Botão para limpar informações -->
+                <button class="btn btn-warning w-100 mb-3" onclick="limparInformacoes()">Limpar Informações</button>
+
+                <!-- Botão para Sobre o App -->
+                <button class="btn btn-success w-100 mb-3" onclick="sobreApp()">Sobre o App</button>
+
+                <!-- Feedback visual -->
+                <div class="loading text-center mb-3" id="loading">
+                    <i class="bi bi-hourglass-split"></i> Calculando...
+                </div>
             </div>
-        </div>
 
-        <!-- Botão para adicionar mais amigos -->
-        <button class="btn btn-secondary w-100 mb-3" onclick="adicionarAmigo()">Adicionar Amigo</button>
-
-        <!-- Botão para calcular -->
-        <button class="btn btn-primary w-100 mb-3" onclick="calcular()">Calcular</button>
-
-        <!-- Feedback visual -->
-        <div class="loading text-center mb-3" id="loading">
-            <i class="bi bi-hourglass-split"></i> Calculando...
+            <!-- Coluna da direita: Resultados -->
+            <div class="col-md-6">
+                <div class="conteudo-direito">
+                    <div class="resultado-card" id="resultado">
+                        <h5><i class="bi bi-cash-coin"></i> Total a ser dividido: <strong>R$ 0.00</strong></h5>
+                        <h5><i class="bi bi-pie-chart"></i> Valor por pedaço: <strong>R$ 0.00</strong></h5>
+                        <h5><i class="bi bi-people"></i> Valor por amigo:</h5>
+                        <ul id="lista-resultados">
+                            <!-- Resultados dos amigos serão adicionados aqui -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -208,7 +383,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
     <script>
+        // Inicializar jsPDF
+        const { jsPDF } = window.jspdf;
+
         let contadorAmigos = 1;
+        let total = 0;
+        let valorPorPedaco = 0;
+
+        // Função para criar a chuva de pizzas
+        function criarChuvaPizzas() {
+            const pizzaChuva = document.getElementById('pizza-chuva');
+            const numPizzas = 20; // Número de pizzas na chuva
+
+            for (let i = 0; i < numPizzas; i++) {
+                const pizza = document.createElement('img');
+                pizza.src = 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png'; // URL da imagem de uma pizza
+                pizza.style.left = `${Math.random() * 100}%`;
+                pizza.style.animationDuration = `${Math.random() * 3 + 2}s`; // Duração aleatória entre 2 e 5 segundos
+                pizza.style.animationDelay = `${Math.random() * 2}s`; // Delay aleatório
+                pizzaChuva.appendChild(pizza);
+            }
+        }
+
+        // Iniciar a chuva de pizzas ao carregar a página
+        criarChuvaPizzas();
 
         // Função para alternar entre tema claro e escuro
         function toggleTheme() {
@@ -229,7 +427,7 @@
             }
         }
 
-        // Verificar o tema salvo no localStorage
+        // Verificar o tema salvo no localStorage ao carregar a página
         function checkTheme() {
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
@@ -256,8 +454,6 @@
                 <div class="amigo-card" id="amigo-${contadorAmigos}">
                     <label for="amigo${contadorAmigos}" class="form-label">Nome do Amigo:</label>
                     <input type="text" class="form-control" id="amigo${contadorAmigos}" placeholder="Ex: Maria">
-                    <label for="celular${contadorAmigos}" class="form-label">Número de Celular:</label>
-                    <input type="text" class="form-control" id="celular${contadorAmigos}" placeholder="Ex: 5511999999999">
                     <label for="pedacos${contadorAmigos}" class="form-label">Quantos pedaços comeu:</label>
                     <input type="number" class="form-control" id="pedacos${contadorAmigos}" placeholder="Ex: 3">
                     <button class="btn btn-danger btn-sm w-100 mt-2" onclick="removerAmigo('amigo-${contadorAmigos}')">Remover</button>
@@ -272,6 +468,39 @@
             if (amigoCard) {
                 amigoCard.remove();
             }
+        }
+
+        // Função para limpar todas as informações
+        function limparInformacoes() {
+            // Limpar campos de entrada
+            document.getElementById('quantidade-pizzas').value = 1;
+            document.getElementById('pizza').value = '';
+            document.getElementById('frete').value = '';
+            document.getElementById('refri').value = '';
+
+            // Limpar lista de amigos
+            document.getElementById('amigos-lista').innerHTML = `
+                <div class="amigo-card" id="amigo-1">
+                    <label for="amigo1" class="form-label">Nome do Amigo:</label>
+                    <input type="text" class="form-control" id="amigo1" placeholder="Ex: João">
+                    <label for="pedacos1" class="form-label">Quantos pedaços comeu:</label>
+                    <input type="number" class="form-control" id="pedacos1" placeholder="Ex: 2">
+                    <button class="btn btn-danger btn-sm w-100 mt-2" onclick="removerAmigo('amigo-1')">Remover</button>
+                </div>
+            `;
+
+            // Limpar resultados
+            document.getElementById('lista-resultados').innerHTML = '';
+            document.querySelector('#resultado h5:nth-child(1)').innerHTML = `<i class="bi bi-cash-coin"></i> Total a ser dividido: <strong>R$ 0.00</strong>`;
+            document.querySelector('#resultado h5:nth-child(2)').innerHTML = `<i class="bi bi-pie-chart"></i> Valor por pedaço: <strong>R$ 0.00</strong>`;
+
+            // Resetar contador de amigos
+            contadorAmigos = 1;
+        }
+
+        // Função para exibir informações sobre o app
+        function sobreApp() {
+            alert("Este aplicativo foi desenvolvido para facilitar a divisão de custos de pizzas entre amigos. Ele calcula o valor que cada pessoa deve pagar com base na quantidade de pedaços que comeu. Desenvolvido por Wener Felice.");
         }
 
         // Função para calcular o valor por pedaço
@@ -303,7 +532,7 @@
                 const totalPizzas = quantidadePizzas * valorPizza;
 
                 // Calcular o total geral (pizzas + frete + refrigerantes)
-                const total = totalPizzas + valorFrete + valorRefri;
+                total = totalPizzas + valorFrete + valorRefri;
 
                 // Pegar os dados dos amigos
                 const amigos = [];
@@ -311,11 +540,10 @@
 
                 for (let i = 1; i <= contadorAmigos; i++) {
                     const nome = document.getElementById(`amigo${i}`)?.value;
-                    const celular = document.getElementById(`celular${i}`)?.value;
                     const pedacos = parseFloat(document.getElementById(`pedacos${i}`)?.value);
 
                     if (nome && !isNaN(pedacos) && pedacos > 0) {
-                        amigos.push({ nome, celular, pedacos });
+                        amigos.push({ nome, pedacos });
                         totalPedaços += pedacos;
                     }
                 }
@@ -329,7 +557,7 @@
                 }
 
                 // Calcular o valor por pedaço
-                const valorPorPedaco = total / totalPedaços;
+                valorPorPedaco = total / totalPedaços;
 
                 // Exibir o resultado
                 const resultadoTotal = document.querySelector('#resultado h5:nth-child(1)');
@@ -343,17 +571,23 @@
                 listaResultados.innerHTML = '';
 
                 // Adicionar os resultados dos amigos
-                amigos.forEach(amigo => {
+                amigos.forEach((amigo, index) => {
                     const valorAmigo = amigo.pedacos * valorPorPedaco;
-                    const linkNubank = gerarLinkNubank(valorAmigo, amigo.nome);
                     const li = document.createElement('li');
-                    li.innerHTML = `
-                        <i class="bi bi-person"></i> ${amigo.nome} comeu ${amigo.pedacos} pedaços: <strong>R$ ${valorAmigo.toFixed(2)}</strong>
-                        <br>
-                        <a href="${linkNubank}" class="pix-link" target="_blank">Pagar com Nubank</a>
-                        <br>
-                        <button class="btn btn-success btn-sm" onclick="enviarWhatsApp('${amigo.celular}', '${linkNubank}')">Enviar Link por WhatsApp</button>
-                    `;
+                    if (index === 0) {
+                        const linkNubank = gerarLinkNubank(valorAmigo, amigo.nome);
+                        li.innerHTML = `
+                            <i class="bi bi-person"></i> ${amigo.nome} comeu ${amigo.pedacos} pedaços: <strong>R$ ${valorAmigo.toFixed(2)}</strong>
+                            <br>
+                            <a href="${linkNubank}" class="pix-link" target="_blank">Pagar com Nubank</a>
+                            <br>
+                            <button class="btn btn-success btn-sm" onclick="enviarWhatsApp('${amigo.nome}', '${linkNubank}')">Enviar Link por WhatsApp</button>
+                        `;
+                    } else {
+                        li.innerHTML = `
+                            <i class="bi bi-person"></i> ${amigo.nome} comeu ${amigo.pedacos} pedaços: <strong>R$ ${valorAmigo.toFixed(2)}</strong>
+                        `;
+                    }
                     listaResultados.appendChild(li);
                 });
 
@@ -372,9 +606,48 @@
         }
 
         // Função para enviar link via WhatsApp
-        function enviarWhatsApp(celular, linkNubank) {
-            const mensagem = `Olá! Aqui está o link para pagamento do Pix: ${linkNubank}`;
-            const linkWhatsApp = `https://api.whatsapp.com/send?phone=${celular}&text=${encodeURIComponent(mensagem)}`;
+        function enviarWhatsApp(nome, linkNubank) {
+            const mensagem = `Olá, ${nome}! Aqui está o link para pagamento do Pix: ${linkNubank}`;
+            const linkWhatsApp = `https://api.whatsapp.com/send?phone=&text=${encodeURIComponent(mensagem)}`;
             window.open(linkWhatsApp, '_blank');
         }
+
+        // Função para gerar PDF
+        function gerarPDF() {
+            const doc = new jsPDF();
+
+            // Título do PDF
+            doc.setFontSize(18);
+            doc.text("Calculadora Pizza CFCCT", 10, 10);
+
+            // Adicionar os valores totais
+            doc.setFontSize(12);
+            doc.text(`Total a ser dividido: R$ ${total.toFixed(2)}`, 10, 20);
+            doc.text(`Valor por pedaço: R$ ${valorPorPedaco.toFixed(2)}`, 10, 30);
+            doc.text("Valor por amigo:", 10, 40);
+
+            // Pegar os dados dos amigos
+            const amigos = [];
+            for (let i = 1; i <= contadorAmigos; i++) {
+                const nome = document.getElementById(`amigo${i}`)?.value;
+                const pedacos = parseFloat(document.getElementById(`pedacos${i}`)?.value);
+
+                if (nome && !isNaN(pedacos) && pedacos > 0) {
+                    amigos.push({ nome, pedacos });
+                }
+            }
+
+            // Adicionar os dados dos amigos ao PDF
+            let y = 50;
+            amigos.forEach(amigo => {
+                const valorAmigo = amigo.pedacos * valorPorPedaco;
+                doc.text(`${amigo.nome}: ${amigo.pedacos} pedaços (R$ ${valorAmigo.toFixed(2)})`, 10, y);
+                y += 10;
+            });
+
+            // Salvar o PDF
+            doc.save("calculadora_pizza.pdf");
+        }
     </script>
+</body>
+</html>
